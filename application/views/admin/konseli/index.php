@@ -2,17 +2,19 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <div class="row" style="margin-top: -10px;">
+    <div class="row ml-auto" style="margin-top: -10px;">
 
-        <a href="<?= base_url('admin/createkonseli'); ?>" class="btn btn-primary mb-2 ml-2" style="color: white;"><i class="fas fa-user-plus"></i>Tambah</a>
-        <form action="<?= base_url('admin/konseli') ?>" method="POST">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search Keyword..." name="keyword" autocomplete="off" autofocus>
-                <div class="input-group-append">
-                    <input class="btn btn-primary" type="submit" name="submit">
+        <a href="<?= base_url('admin/createkonseli'); ?>" class="btn btn-primary mb-2" style="color: white;"><i class="fas fa-user-plus"></i>Tambah</a>
+        <div class="ml-auto">
+            <form action="<?= base_url('admin/konseli') ?>" method="POST">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search Keyword..." name="keyword" autocomplete="off" autofocus>
+                    <div class="input-group-append">
+                        <input class="btn btn-primary" type="submit" name="submit">
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
     <?= $this->session->flashdata('message'); ?>

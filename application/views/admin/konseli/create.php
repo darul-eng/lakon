@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <form method="POST" action="">
+    <form method="POST" action="<?= base_url(''); ?>admin/createkonseli">
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="nis">Username</label>

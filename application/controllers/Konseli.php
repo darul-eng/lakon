@@ -1,18 +1,20 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require 'vendor/autoload.php';
-class Konselor extends CI_Controller
+
+class Konseli extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
         is_logged_in();
         $username = $this->session->userdata('username');
         $role_id = $this->session->userdata('role_id');
-        $role = $this->db->get_where('konselor', ['nik' => $username])->row_array();
-        $konselor = $role['role_id'];
+        $role = $this->db->get_where('konseli', ['nis' => $username])->row_array();
+        $konseli = $role['role_id'];
 
-        if ($role_id != $konselor) {
+        if ($role_id != $konseli) {
             redirect('auth/blocked');
         }
         $this->load->model('User_model');
@@ -27,26 +29,25 @@ class Konselor extends CI_Controller
     }
     public function choose()
     {
-        $data['title'] = 'Pilih Konseli';
-        $data['penerima'] = $this->session->userdata('username');
-        $data['konseli'] = $this->Chat_model->getAllKonseli();
+        $data['title'] = 'Pilih Konselor';
+        $data['konselor'] = $this->User_model->getAllKonselor();
         $this->load->view('templates/header', $data);
-        $this->load->view('peges/pilihKonseli', $data);
+        $this->load->view('peges/pilihKonselor', $data);
         $this->load->view('templates/footer');
     }
     public function chat($id)
     {
         $data['title'] = 'Chat';
-        $data['konseli'] = $this->User_model->getKonseliById($id);
         $data['konselor'] = $this->User_model->getKonselorById($id);
+        $data['konseli'] = $this->User_model->getKonseliById($id);
 
 
         // menyimpan username dari pengguna yang aktif
         $data['pengirim'] = $this->session->userdata('username');
 
         // menampung username/nik dari konselor yang dipilih
-        if ($this->input->post('nis')) {
-            $data['penerima'] = $this->input->post('nis');
+        if ($this->input->post('nik')) {
+            $data['penerima'] = $this->input->post('nik');
             $this->session->set_userdata('penerima', $data['penerima']);
         } else {
             $data['penerima'] = $this->session->userdata('penerima');
@@ -58,7 +59,6 @@ class Konselor extends CI_Controller
 
         // $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
         $this->form_validation->set_rules('pesan', 'Pesan', 'trim|required');
-        $this->form_validation->set_rules('penerima', 'Penerima', 'required');
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('peges/chat', $data);
@@ -91,26 +91,23 @@ class Konselor extends CI_Controller
                 $pusher->trigger('my-channel', 'my-event', $data_pusher);
             }
             $data['title'] = 'Chat';
-            $data['konseli'] = $this->User_model->getKonseliById($id);
             $data['konselor'] = $this->User_model->getKonselorById($id);
 
-            // $data['pengirim'] = $this->session->userdata('username');
-            // $penerima = $this->input->post('penerima');
-            // // $data['penerima'] = $data['konselor'];
             $data['pengirim'] = $this->session->userdata('username');
             $penerima = $this->input->post('penerima');
-            // menampung username/nik dari konselor yang dipilih
-            // if ($this->input->post('nis')) {
-            //     $data['penerima'] = $this->input->post('nis');
-            //     $this->session->set_userdata('penerima', $data['penerima']);
-            // } else {
-            //     $data['penerima'] = $this->session->userdata('penerima');
-            // }
+            // // $data['penerima'] = $data['konselor'];
             $data['chat'] = $this->Chat_model->chatPerson($data['pengirim'], $penerima);
             // $data['chat'] = $this->db->order_by('id', 'ASC')->get('chat')->result_array();
             $this->load->view('templates/header', $data);
             $this->load->view('peges/chat', $data);
             $this->load->view('templates/footer');
         }
+    }
+    public function store()
+    {
+
+        // $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+        // $this->form_validation->set_rules('pesan', 'Pesan', 'trim|required');
+
     }
 }

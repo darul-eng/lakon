@@ -39,7 +39,7 @@ class Auth extends CI_Controller
                 $this->session->set_userdata($data);
                 redirect('admin');
             } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">username is not registered!</div>');
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong Password!</div>');
                 redirect('auth');
             }
         } elseif ($konselor) {
@@ -51,9 +51,9 @@ class Auth extends CI_Controller
                     'username' => $konselor['nik']
                 ];
                 $this->session->set_userdata($data);
-                redirect('guru');
+                redirect('konselor');
             } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">username is not registered!</div>');
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong Password!</div>');
                 redirect('auth');
             }
         } elseif ($konseli) {
@@ -65,9 +65,9 @@ class Auth extends CI_Controller
                     'username' => $konseli['nis']
                 ];
                 $this->session->set_userdata($data);
-                redirect('siswa');
+                redirect('konseli');
             } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">username is not registered!</div>');
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong Password!</div>');
                 redirect('auth');
             }
         } else {
