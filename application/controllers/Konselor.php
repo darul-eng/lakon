@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require 'vendor/autoload.php';
+
 class Konselor extends CI_Controller
 {
     public function __construct()
@@ -21,18 +22,18 @@ class Konselor extends CI_Controller
     public function index()
     {
         $data['title'] = 'Artikel Inspiratif';
-        $this->load->view('templates/header', $data);
-        $this->load->view('peges/index');
-        $this->load->view('templates/footer');
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/landing');
+        $this->load->view('templates/footer-landing');
     }
     public function choose()
     {
         $data['title'] = 'Pilih Konseli';
         $data['penerima'] = $this->session->userdata('username');
         $data['konseli'] = $this->Chat_model->getAllKonseli();
-        $this->load->view('templates/header', $data);
+        $this->load->view('templates/header-landing', $data);
         $this->load->view('peges/pilihKonseli', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer-landing');
     }
     public function chat($id)
     {
@@ -54,15 +55,16 @@ class Konselor extends CI_Controller
 
         // data chat berdasarkan username penerima dan pengirim
         $data['chat'] = $this->Chat_model->chatPerson($data['pengirim'], $data['penerima']);
+        // $data['chat'] = $this->db->order_by('id', 'ASC')->get('chat')->result_array();
 
 
         // $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
         $this->form_validation->set_rules('pesan', 'Pesan', 'trim|required');
         $this->form_validation->set_rules('penerima', 'Penerima', 'required');
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
+            $this->load->view('templates/header-landing', $data);
             $this->load->view('peges/chat', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/footer-landing');
         } else {
             $data = [
                 'u_pengirim' => $this->input->post('pengirim'),
@@ -106,11 +108,51 @@ class Konselor extends CI_Controller
             // } else {
             //     $data['penerima'] = $this->session->userdata('penerima');
             // }
+
             $data['chat'] = $this->Chat_model->chatPerson($data['pengirim'], $penerima);
             // $data['chat'] = $this->db->order_by('id', 'ASC')->get('chat')->result_array();
-            $this->load->view('templates/header', $data);
+            $this->load->view('templates/header-landing', $data);
             $this->load->view('peges/chat', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/footer-landing');
         }
+    }
+    public function profil($id)
+    {
+        $data['title'] = 'My Profil';
+        $data['konselor'] = $this->User_model->getKonselorById($id);
+        $data['konseli'] = $this->User_model->getKonseliById($id);
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/profile', $data);
+        $this->load->view('templates/footer-landing');
+    }
+    public function edit($id)
+    {
+        $data['title'] = 'Edit Profil';
+        $data['konselor'] = $this->User_model->getKonselorById($id);
+        $data['konseli'] = $this->User_model->getKonseliById($id);
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/editProfil', $data);
+        $this->load->view('templates/footer-landing');
+    }
+    public function pesan()
+    {
+        $data['title'] = 'Daftar Pesan';
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/kotakMasuk');
+        $this->load->view('templates/footer-landing');
+    }
+    public function group()
+    {
+        $data['title'] = 'Chat Group';
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/pesanGroup');
+        $this->load->view('templates/footer-landing');
+    }
+    public function invite()
+    {
+        $data['title'] = 'Invite';
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/invite');
+        $this->load->view('templates/footer-landing');
     }
 }

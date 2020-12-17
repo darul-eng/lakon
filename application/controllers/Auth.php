@@ -32,6 +32,7 @@ class Auth extends CI_Controller
             if (password_verify($password, password_hash($passadmin, PASSWORD_DEFAULT))) {
                 # code...
                 $data = [
+                    'id' => $admin['id'],
                     'role_id' => $admin['role_id'],
                     'nama_lengkap' => $admin['nama_lengkap'],
                     'username' => $admin['username']
@@ -46,6 +47,7 @@ class Auth extends CI_Controller
             if (password_verify($password, password_hash($passkonselor, PASSWORD_DEFAULT))) {
                 # code...
                 $data = [
+                    'id' => $konselor['id'],
                     'role_id' => $konselor['role_id'],
                     'nama_lengkap' => $konselor['nama_lengkap'],
                     'username' => $konselor['nik']
@@ -60,6 +62,7 @@ class Auth extends CI_Controller
             if (password_verify($password, password_hash($passkonseli, PASSWORD_DEFAULT))) {
                 # code...
                 $data = [
+                    'id' => $konseli['id'],
                     'role_id' => $konseli['role_id'],
                     'nama_lengkap' => $konseli['nama_lengkap'],
                     'username' => $konseli['nis']

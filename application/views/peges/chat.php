@@ -1,60 +1,98 @@
 <div class="container">
-    <h1 class="text-center mt-3">Hai <?= $this->session->userdata('nama_lengkap'); ?></h1>
-    <h3 class="text-center mt-3">Halaman Chat Personal dengan
+    <h1 class="text-center mt-1">Hai <?= $this->session->userdata('nama_lengkap'); ?></h1>
+    <h3 class="text-center mt-1">Halaman Chat Personal dengan
         <?php if ($this->session->userdata('role_id') == 2) : ?>
             <?= $konseli['nama_lengkap']; ?>
         <?php else : ?>
             <?= $konselor['nama_lengkap']; ?>
         <?php endif; ?>
     </h3>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div id="pesan">
-                    <?php foreach ($chat as $list) : ?>
-                        <?php if ($list['u_pengirim'] == $this->session->userdata('username')) : ?>
-                            <?php if ($list['u_penerima'] == $this->session->userdata('penerima')) : ?>
-                                <p>
-                                    <span style="margin-left: 200px;"><b><?= $list['u_pengirim']; ?></b></span> -
-                                    <span><?= $list['pesan']; ?></span>
-
-                                </p>
-                            <?php endif; ?>
-                        <?php endif; ?>
-
-                        <?php if ($list['u_pengirim'] == $this->session->userdata('penerima')) : ?>
-                            <?php if ($list['u_penerima'] == $this->session->userdata('username')) : ?>
-                                <p>
-                                    <span style="color:green;"><b><?= $list['u_pengirim']; ?></b></span> -
-                                    <span style="color:green;"><?= $list['pesan']; ?></span>
-
-                                </p>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+    <div class="main-wrapper">
+        <header class="header">
+            <!-- <div class="logo">
+                <a href="#">My Messenger</a>
+            </div>
+            <div class="menu">
+                <a href="#" onclick="logout()">Logout&nbsp;<i class="fas fa-sign-out-alt"></i></a>
+            </div> -->
+            <span class="text-white">Message</span>
+        </header>
+        <div class="flex-box">
+            <div class="box-1">
+                <div class="messenger">
+                    <!-- <div class="heading">
+                        <i class="fab fa-facebook-messenger"></i>&nbsp;<span>Messenger</span>
+                    </div> -->
+                    <div class="users">
+                        <!-- Dynamic Users -->
+                        <div class="user">
+                            <div class="user-image mt-2">
+                                <img class="img-profile" src="<?= base_url('') ?>assets/img/default.jpg">
+                            </div>
+                            <div class="user-details">
+                                <span><strong>
+                                        <?php if ($this->session->userdata('role_id') == 2) : ?>
+                                            <?= $konseli['nama_lengkap']; ?>
+                                        <?php else : ?>
+                                            <?= $konselor['nama_lengkap']; ?>
+                                        <?php endif; ?>
+                                    </strong>
+                                </span>
+                                <?php if ($this->session->userdata('role_id') == 2) : ?>
+                                    <small>Last Online</small>
+                                    <a href="<?= base_url(''); ?>konselor/invite"><small>Alihkan</small></a>
+                                <?php else : ?>
+                                    <small>Last Online</small>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <!-- Dynamic users End -->
+                    </div>
                 </div>
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <input type="hidden" name="pengirim" id="pengirim" class="form-control" value="<?= $this->session->userdata('username'); ?>">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="pesan" id="message" class="form-control" placeholder="Pesan Anda" autocomplete="off" autofocus required>
-                    </div>
-                    <?php if ($this->session->userdata('role_id') == 2) : ?>
-                        <div class="form-group">
-                            <input type="hidden" name="penerima" id="penerima" class="form-control" value="<?= $konseli['nis']; ?>">
+            </div>
+            <div class="box-2">
+                <div class="chat-container pt-2">
+                    <!-- <div class="heading">
+                        <i class="fas fa-user"></i>&nbsp;<span class="name"></span>
+                    </div> -->
+                    <div class="messages">
+                        <div class="chats">
+                            <div class="message-container">
+                                <?php foreach ($chat as $list) : ?>
+                                    <?php if ($list['u_pengirim'] == $this->session->userdata('username')) : ?>
+                                        <?php if ($list['u_penerima'] == $this->session->userdata('penerima')) : ?>
+                                            <div class="message-block">
+                                                <div class="user-icon">
+                                                    <img class="img-profile" src="<?= base_url('') ?>assets/img/default.jpg">
+                                                </div>
+                                                <div class="message"><?= $list['pesan']; ?></div>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+
+                                    <?php if ($list['u_pengirim'] == $this->session->userdata('penerima')) : ?>
+                                        <?php if ($list['u_penerima'] == $this->session->userdata('username')) : ?>
+                                            <div class="message-block received-message">
+                                                <div class="user-icon">
+                                                    <img class="img-profile" src="<?= base_url('') ?>assets/img/default.jpg">
+                                                </div>
+                                                <div class="message"><?= $list['pesan']; ?></div>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                    <?php else : ?>
-                        <div class="form-group">
-                            <input type="hidden" name="penerima" id="penerima" class="form-control" value="<?= $konselor['nik']; ?>">
+                        <div class="write-message">
+                            <div class="message-area">
+                                <textarea class="message-input" placeholder="Type a message"></textarea>
+                                <button class="send-btn">
+                                    <i class="fab fa-telegram-plane"></i>&nbsp;Send
+                                </button>
+                            </div>
                         </div>
-                    <?php endif; ?>
-                    <!-- <div class="form-group"> -->
-                    <!-- <input type="submit" value="Kirim" class="btn btn-primary" onclick='store();'> -->
-                    <!-- <input class="btn btn-primary" type="submit" name="submit"> -->
-                    <button type="submit" class="btn btn-primary">Tambah</button>
-                    <!-- </div> -->
-                </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -70,29 +108,15 @@
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
-        // alert(JSON.stringify(data));
+        // document.write(JSON.stringify(data));
         addData(data);
     });
 
     function addData(data) {
         var str = '';
         for (var z in data) {
-            str += '<p><span><b>' + data[z].u_pengirim + '</b></span> - <span>' + data[z].pesan + '</span><span><u?>' + data[z].u_penerima + '</u></span></p>';
+            str += '<p><span><b>' + data[z].u_pengirim + '</b></span> - <span>' + data[z].pesan + '</span> <span><u>' + data[z].u_penerima + '</u></span></p>';
         }
         $('#pesan').html(str);
     }
 </script>
-<!-- <script>
-    function store() {
-        var value = {
-            nama: $('#nama').val(),
-            pesan: $('#message').val()
-        }
-        $.ajax({
-            url: '<?= base_url(); ?>/konseli/store',
-            type: 'POST',
-            data: value,
-            dataType: 'JSON'
-        });
-    }
-</script> -->

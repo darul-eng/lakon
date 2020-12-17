@@ -7,7 +7,7 @@
                     <div class="card">
                         <img src="<?= base_url(''); ?>assets/img/<?= $kons['img']; ?>" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title"><?= $kons['nama_lengkap']; ?></h5>
+                            <h5 class="card-title text-dark"><?= $kons['nama_lengkap']; ?></h5>
                             <p class="card-text"><?= $kons['gender']; ?></p>
                         </div>
                         <div class="card-footer">

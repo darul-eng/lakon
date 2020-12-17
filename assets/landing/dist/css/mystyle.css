@@ -1,0 +1,21 @@
+nav {
+	display: flex;
+	/* justify-content: space-around; */
+	background-color: transparent;
+	padding: 20px 0;
+	color: white;
+}
+
+nav ul {
+	display: flex;
+	list-style: none;
+	/* width: 0%;/ */
+	/* justify-content: end; */
+	/* margin-left: 200px; */
+	float: left;
+}
+nav div ul li a {
+	color: white;
+	text-decoration: none;
+	/* margin: 10px; */
+}

@@ -23,17 +23,17 @@ class Konseli extends CI_Controller
     public function index()
     {
         $data['title'] = 'Artikel Inspiratif';
-        $this->load->view('templates/header', $data);
-        $this->load->view('peges/index');
-        $this->load->view('templates/footer');
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/landing');
+        $this->load->view('templates/footer-landing');
     }
     public function choose()
     {
         $data['title'] = 'Pilih Konselor';
         $data['konselor'] = $this->User_model->getAllKonselor();
-        $this->load->view('templates/header', $data);
+        $this->load->view('templates/header-landing', $data);
         $this->load->view('peges/pilihKonselor', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer-landing');
     }
     public function chat($id)
     {
@@ -55,14 +55,15 @@ class Konseli extends CI_Controller
 
         // data chat berdasarkan username penerima dan pengirim
         $data['chat'] = $this->Chat_model->chatPerson($data['pengirim'], $data['penerima']);
-
+        // $data['chat'] = $this->db->order_by('id', 'ASC')->get('chat')->result_array();
 
         // $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
         $this->form_validation->set_rules('pesan', 'Pesan', 'trim|required');
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
+            // redirect('konseli/chat/' . $id);
+            $this->load->view('templates/header-landing', $data);
             $this->load->view('peges/chat', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/footer-landing');
         } else {
             $data = [
                 'u_pengirim' => $this->input->post('pengirim'),
@@ -92,22 +93,56 @@ class Konseli extends CI_Controller
             }
             $data['title'] = 'Chat';
             $data['konselor'] = $this->User_model->getKonselorById($id);
+            $data['konseli'] = $this->User_model->getKonseliById($id);
 
             $data['pengirim'] = $this->session->userdata('username');
             $penerima = $this->input->post('penerima');
+
             // // $data['penerima'] = $data['konselor'];
             $data['chat'] = $this->Chat_model->chatPerson($data['pengirim'], $penerima);
             // $data['chat'] = $this->db->order_by('id', 'ASC')->get('chat')->result_array();
-            $this->load->view('templates/header', $data);
+            $this->load->view('templates/header-landing', $data);
             $this->load->view('peges/chat', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/footer-landing');
         }
     }
-    public function store()
+    public function profil($id)
     {
-
-        // $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-        // $this->form_validation->set_rules('pesan', 'Pesan', 'trim|required');
-
+        $data['title'] = 'My Profil';
+        $data['konseli'] = $this->User_model->getKonseliById($id);
+        $data['konselor'] = $this->User_model->getKonselorById($id);
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/profile', $data);
+        $this->load->view('templates/footer-landing');
+    }
+    public function edit($id)
+    {
+        $data['title'] = 'Edit Profil';
+        $data['konseli'] = $this->User_model->getKonseliById($id);
+        $data['konselor'] = $this->User_model->getKonselorById($id);
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/editProfil', $data);
+        $this->load->view('templates/footer-landing');
+    }
+    public function pesan()
+    {
+        $data['title'] = 'Daftar Pesan';
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/kotakMasuk');
+        $this->load->view('templates/footer-landing');
+    }
+    public function group()
+    {
+        $data['title'] = 'Chat Group';
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/pesanGroup');
+        $this->load->view('templates/footer-landing');
+    }
+    public function invitation()
+    {
+        $data['title'] = 'Invite';
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/invitation');
+        $this->load->view('templates/footer-landing');
     }
 }

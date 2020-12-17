@@ -22,8 +22,8 @@ class Artikel extends CI_Controller
     public function index()
     {
         $data['title'] = 'Artikel Inspiratif';
-        $this->load->view('templates/header', $data);
-        $this->load->view('peges/index');
-        $this->load->view('templates/footer');
+        $this->load->view('templates/header-landing', $data);
+        $this->load->view('peges/landing');
+        $this->load->view('templates/footer-landing');
     }
 }
